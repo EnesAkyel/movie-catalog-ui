@@ -357,6 +357,20 @@ describe('ListComponent', () => {
         'Could not delete the movie. Please try again.',
       );
     });
+
+    it('auto-dismisses the success message 4 seconds after a delete', () => {
+      vi.useFakeTimers();
+      init([
+        { mid: 1001, name: 'A', genre: '', price: 1, rating: 'G', studio: 1 },
+      ]);
+      component.delete(1001);
+      const req = httpMock.expectOne(`${environment.apiUrl}/movie/1001`);
+      req.flush({});
+
+      expect(component.successMessage).toBe('Movie deleted successfully.');
+      vi.advanceTimersByTime(4000);
+      expect(component.successMessage).toBeNull();
+    });
   });
 
   describe('success message', () => {
