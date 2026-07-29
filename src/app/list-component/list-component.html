@@ -1,0 +1,176 @@
+<h1>List of Movies!</h1>
+<!--genre navigation bar above the movie list -->
+<app-genre-navbar></app-genre-navbar>
+<p><a data-testid="add-movie-link" [routerLink]="['/add']">Add A Movie</a></p>
+@if (errorMessage) {
+  <p class="red" role="alert" data-testid="list-error-message">
+    {{ errorMessage }}
+  </p>
+}
+@if (successMessage) {
+  <output aria-live="polite" data-testid="list-success-message">
+    {{ successMessage }}
+    <button
+      type="button"
+      data-testid="dismiss-success-message"
+      (click)="dismissSuccessMessage()"
+    >
+      Dismiss
+    </button>
+  </output>
+}
+<form [formGroup]="filterForm">
+  <p class="filters">
+    <!--search bar field that can be used to search a movie by name or MID -->
+    <label for="search">Search:</label>
+    <input
+      id="search"
+      type="text"
+      placeholder="Search by name or MID..."
+      formControlName="search"
+      data-testid="search-input"
+    />
+
+    <!--rating filter dropdown -->
+    <label for="rating">Rating:</label>
+    <select id="rating" formControlName="rating" data-testid="rating-filter">
+      <option value="">All Ratings</option>
+      <option value="G">G</option>
+      <option value="PG">PG</option>
+      <option value="PG-13">PG-13</option>
+      <option value="R">R</option>
+      <option value="NC-17">NC-17</option>
+    </select>
+
+    <!--price range filter -->
+    <label for="minPrice">Min Price:</label>
+    <input
+      id="minPrice"
+      type="number"
+      placeholder="Min Price"
+      formControlName="minPrice"
+      data-testid="min-price-input"
+    />
+    <label for="maxPrice">Max Price:</label>
+    <input
+      id="maxPrice"
+      type="number"
+      placeholder="Max Price"
+      formControlName="maxPrice"
+      data-testid="max-price-input"
+    />
+  </p>
+</form>
+@if (movieList.length > 0) {
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <!--movies can be sorted by MID and Name. Movies can also be deleted -->
+          <th>
+            <button
+              type="button"
+              data-testid="sort-by-mid"
+              (click)="sortBy('mid')"
+            >
+              MID
+              @if (sortColumn === 'mid') {
+                <span data-testid="sort-arrow-mid">{{
+                  sortDirection === 'asc' ? '▲' : '▼'
+                }}</span>
+              }
+            </button>
+          </th>
+          <th>
+            <button
+              type="button"
+              data-testid="sort-by-name"
+              (click)="sortBy('name')"
+            >
+              Name
+              @if (sortColumn === 'name') {
+                <span data-testid="sort-arrow-name">{{
+                  sortDirection === 'asc' ? '▲' : '▼'
+                }}</span>
+              }
+            </button>
+          </th>
+          <th>Delete?</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if ((movieList | search: searchString).length === 0) {
+          <tr>
+            <td colspan="3" data-testid="no-search-results">
+              No movies match your search.
+            </td>
+          </tr>
+        }
+        @for (movie of movieList | search: searchString; track movie.mid) {
+          <tr>
+            <!--list the search result based on search input -->
+            <td>
+              <a
+                [attr.data-testid]="'movie-link-' + movie.mid"
+                [routerLink]="['/movie/', movie.mid]"
+                >{{ movie.mid }}</a
+              >
+            </td>
+            <td>{{ movie.name }}</td>
+            <td>
+              @if (pendingDeleteMid === movie.mid) {
+                <span [attr.data-testid]="'confirm-delete-' + movie.mid">
+                  Delete this movie?
+                  <button
+                    type="button"
+                    [attr.data-testid]="'confirm-delete-yes-' + movie.mid"
+                    (click)="delete(movie.mid)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    [attr.data-testid]="'confirm-delete-no-' + movie.mid"
+                    (click)="cancelDelete()"
+                  >
+                    No
+                  </button>
+                </span>
+              } @else {
+                <button
+                  type="button"
+                  [attr.data-testid]="'delete-movie-' + movie.mid"
+                  (click)="confirmDelete(movie.mid)"
+                >
+                  <span class="material-symbols-outlined">Delete</span>
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    @if (!searchString) {
+      <p>
+        <button
+          data-testid="prev-page-button"
+          (click)="prevPage()"
+          [disabled]="page === 0"
+        >
+          Previous
+        </button>
+        Page {{ page + 1 }} of {{ totalPages }} ({{ totalElements }} movies)
+        <button
+          data-testid="next-page-button"
+          (click)="nextPage()"
+          [disabled]="page + 1 >= totalPages"
+        >
+          Next
+        </button>
+      </p>
+    }
+  </div>
+} @else {
+  <!--if there is no movie, display below title -->
+  <h2>No Movies to List!</h2>
+}

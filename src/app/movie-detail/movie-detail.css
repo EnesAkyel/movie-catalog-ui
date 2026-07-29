@@ -1,0 +1,15 @@
+table {
+  border: 1px solid;
+  border-spacing: 5px;
+}
+
+td,
+th {
+  border: 1px solid;
+  padding: 5px;
+}
+
+th {
+  font-weight: normal;
+  text-align: left;
+}

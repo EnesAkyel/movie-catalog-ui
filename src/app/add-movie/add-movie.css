@@ -1,0 +1,29 @@
+table {
+  border: 1px solid;
+  border-spacing: 5px;
+}
+
+td,
+th {
+  border: 1px solid;
+  padding: 5px;
+}
+
+th {
+  font-weight: normal;
+  text-align: left;
+}
+
+/* fixed-height slot: the input centers vertically inside it, and shifts up to make
+   room as the error slot below gains content, so the row itself never resizes */
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 3.4em;
+}
+
+.field-error-slot {
+  margin-top: 4px;
+  font-size: 0.9em;
+}

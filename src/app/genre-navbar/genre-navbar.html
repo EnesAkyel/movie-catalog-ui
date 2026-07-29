@@ -1,0 +1,91 @@
+<!--genre navigation bar on top of the movie list -->
+<ul class="topnav">
+  <li>
+    <a
+      data-testid="genre-link-All"
+      [routerLink]="['/list']"
+      [class.active]="genre === ''"
+      ><span class="collapsible">All</span></a
+    >
+  </li>
+  <li>
+    <a
+      data-testid="genre-link-Action"
+      [routerLink]="['/genre', 'Action']"
+      [class.active]="genre === 'Action'"
+      ><span class="collapsible">Action</span></a
+    >
+  </li>
+  <li>
+    <a
+      data-testid="genre-link-Romance"
+      [routerLink]="['/genre', 'Romance']"
+      [class.active]="genre === 'Romance'"
+      ><span class="collapsible">Romance</span></a
+    >
+  </li>
+  <li class="right">
+    <a
+      data-testid="genre-link-Comedy"
+      [routerLink]="['/genre', 'Comedy']"
+      [class.active]="genre === 'Comedy'"
+      ><span class="collapsible">Comedy</span></a
+    >
+  </li>
+  <li>
+    <a
+      data-testid="genre-link-Horror"
+      [routerLink]="['/genre', 'Horror']"
+      [class.active]="genre === 'Horror'"
+      ><span class="collapsible">Horror</span></a
+    >
+  </li>
+  <li>
+    <a
+      data-testid="genre-link-Drama"
+      [routerLink]="['/genre', 'Drama']"
+      [class.active]="genre === 'Drama'"
+      ><span class="collapsible">Drama</span></a
+    >
+  </li>
+  <li>
+    <a
+      data-testid="genre-link-Thriller"
+      [routerLink]="['/genre', 'Thriller']"
+      [class.active]="genre === 'Thriller'"
+      ><span class="collapsible">Thriller</span></a
+    >
+  </li>
+  <li class="right">
+    <a
+      data-testid="genre-link-Sci-Fi"
+      [routerLink]="['/genre', 'Sci-Fi']"
+      [class.active]="genre === 'Sci-Fi'"
+      ><span class="collapsible">Sci-Fi</span></a
+    >
+  </li>
+  <li class="right">
+    <a
+      data-testid="genre-link-Fantasy"
+      [routerLink]="['/genre', 'Fantasy']"
+      [class.active]="genre === 'Fantasy'"
+      ><span class="collapsible">Fantasy</span></a
+    >
+  </li>
+  <li class="right">
+    <a
+      data-testid="genre-link-Mystery"
+      [routerLink]="['/genre', 'Mystery']"
+      [class.active]="genre === 'Mystery'"
+      ><span class="collapsible">Mystery</span></a
+    >
+  </li>
+  <li class="right">
+    <a
+      data-testid="genre-link-Adventure"
+      [routerLink]="['/genre', 'Adventure']"
+      [class.active]="genre === 'Adventure'"
+      ><span class="collapsible">Adventure</span></a
+    >
+  </li>
+</ul>

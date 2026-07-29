@@ -1,0 +1,80 @@
+<h1>Movie: {{ mid }}</h1>
+
+<p>
+  <a data-testid="list-link" [routerLink]="['/list']">List of Movies</a> |
+  <a data-testid="add-movie-link" [routerLink]="['/add']">Add A Movie</a>
+</p>
+@if (errorMessage) {
+  <p class="red" role="alert">{{ errorMessage }}</p>
+} @else {
+  <!--displaying movie detail in a table with a delete button -->
+  <table>
+    <tbody>
+      <tr>
+        <th scope="row">MID:</th>
+        <td>{{ movie.mid }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Name:</th>
+        <td>{{ movie.name }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Genre:</th>
+        <td>{{ movie.genre }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Price:</th>
+        <td>${{ movie.price }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Rating:</th>
+        <td>{{ movie.rating }}</td>
+      </tr>
+      <tr>
+        <th scope="row">Studio:</th>
+        <td data-testid="studio-name">{{ studioName ?? movie.studio }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <a
+            data-testid="edit-movie-link"
+            [routerLink]="['/movie', mid, 'edit']"
+            >Edit</a
+          >
+          @if (pendingDelete) {
+            <span data-testid="confirm-delete">
+              Delete this movie?
+              <button
+                type="button"
+                data-testid="confirm-delete-yes"
+                (click)="delete()"
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                data-testid="confirm-delete-no"
+                (click)="cancelDelete()"
+              >
+                No
+              </button>
+            </span>
+          } @else {
+            <button
+              type="button"
+              data-testid="delete-movie-button"
+              (click)="confirmDelete()"
+            >
+              <span class="material-symbols-outlined">Delete</span>
+            </button>
+          }
+        </td>
+      </tr>
+    </tbody>
+  </table>
+}
+
+<p>
+  <a data-testid="list-link" [routerLink]="['/list']">List of Movies</a> |
+  <a data-testid="add-movie-link" [routerLink]="['/add']">Add A Movie</a>
+</p>

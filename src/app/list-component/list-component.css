@@ -1,0 +1,36 @@
+table {
+  border: 1px solid;
+  border-spacing: 5px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  width: 15%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  width: 15%;
+}
+
+.filters label {
+  margin-left: 20px;
+}
+
+.filters label:first-child {
+  margin-left: 0;
+}
+
+#search {
+  width: 20em;
+}
