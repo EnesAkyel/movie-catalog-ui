@@ -25,10 +25,7 @@ export class AuthService {
     this.baseURL = environment.apiUrl;
   }
 
-  public login(
-    username: string,
-    password: string,
-  ): Observable<LoginResponse> {
+  public login(username: string, password: string): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(this.baseURL + '/auth/login', {
         username,

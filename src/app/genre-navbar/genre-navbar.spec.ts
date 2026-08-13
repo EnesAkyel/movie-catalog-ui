@@ -88,8 +88,9 @@ describe('GenreNavbarComponent', () => {
     await setup(null);
     const logoutSpy = vi.spyOn(authService, 'logout');
 
-    const button: HTMLButtonElement =
-      fixture.nativeElement.querySelector('[data-testid="logout-button"]');
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '[data-testid="logout-button"]',
+    );
     button.click();
 
     expect(logoutSpy).toHaveBeenCalled();
