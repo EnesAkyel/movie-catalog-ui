@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AuthService } from '../auth-service/auth-service';
 
 @Component({
   selector: 'app-genre-navbar',
@@ -19,6 +20,7 @@ export class GenreNavbarComponent implements OnInit {
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -27,5 +29,9 @@ export class GenreNavbarComponent implements OnInit {
       this.genre = params.get('genre') ?? '';
       this.cdr.detectChanges();
     });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

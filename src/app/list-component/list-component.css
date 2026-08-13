@@ -11,6 +11,7 @@ th {
   padding: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 th:nth-child(1),

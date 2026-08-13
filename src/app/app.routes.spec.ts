@@ -2,6 +2,8 @@ import { routes } from './app.routes';
 import { ListComponent } from './list-component/list-component';
 import { MovieDetail } from './movie-detail/movie-detail';
 import { AddMovie } from './add-movie/add-movie';
+import { LoginComponent } from './login/login';
+import { authGuard } from './auth-guard/auth-guard';
 
 describe('routes', () => {
   function findByPath(path: string) {
@@ -21,6 +23,19 @@ describe('routes', () => {
 
   it('routes the movie detail path to MovieDetail', () => {
     expect(findByPath('movie/:mid')?.component).toBe(MovieDetail);
+  });
+
+  it('routes the login path to LoginComponent without a guard', () => {
+    const login = findByPath('login');
+    expect(login?.component).toBe(LoginComponent);
+    expect(login?.canActivate).toBeUndefined();
+  });
+
+  it('guards every route except login', () => {
+    const guarded = routes.filter((r) => r.path !== 'login' && r.path !== '');
+    for (const route of guarded) {
+      expect(route.canActivate).toEqual([authGuard]);
+    }
   });
 
   it('redirects the empty path to list', () => {
