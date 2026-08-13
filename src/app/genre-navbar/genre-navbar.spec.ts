@@ -9,10 +9,12 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
 import { GenreNavbarComponent } from './genre-navbar';
+import { AuthService } from '../auth-service/auth-service';
 
 describe('GenreNavbarComponent', () => {
   let component: GenreNavbarComponent;
   let fixture: ComponentFixture<GenreNavbarComponent>;
+  let authService: AuthService;
 
   async function setup(genre: string | null) {
     await TestBed.configureTestingModule({
@@ -30,6 +32,7 @@ describe('GenreNavbarComponent', () => {
 
     fixture = TestBed.createComponent(GenreNavbarComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
   }
 
@@ -79,5 +82,16 @@ describe('GenreNavbarComponent', () => {
     expect(linkFor('genre-link-Horror').classList).toContain('active');
     expect(linkFor('genre-link-All').classList).not.toContain('active');
     expect(linkFor('genre-link-Action').classList).not.toContain('active');
+  });
+
+  it('renders a logout button that logs out on click', async () => {
+    await setup(null);
+    const logoutSpy = vi.spyOn(authService, 'logout');
+
+    const button: HTMLButtonElement =
+      fixture.nativeElement.querySelector('[data-testid="logout-button"]');
+    button.click();
+
+    expect(logoutSpy).toHaveBeenCalled();
   });
 });

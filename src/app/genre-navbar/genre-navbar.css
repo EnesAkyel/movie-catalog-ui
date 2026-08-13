@@ -31,6 +31,23 @@ ul.topnav li.right {
   float: right;
 }
 
+.logout-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  padding: 14px 16px;
+  border: none;
+  background-color: #333;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #111;
+}
+
 @media screen and (max-width: 600px) {
   .collapsible {
     display: none;
