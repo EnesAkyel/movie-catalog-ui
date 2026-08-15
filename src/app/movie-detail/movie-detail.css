@@ -13,3 +13,7 @@ th {
   font-weight: normal;
   text-align: left;
 }
+
+.delete-cell {
+  text-align: right;
+}

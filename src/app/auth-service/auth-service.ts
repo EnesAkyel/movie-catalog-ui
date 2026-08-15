@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -16,12 +16,12 @@ export interface LoginResponse {
 
 //handles login/logout and JWT storage for the app
 export class AuthService {
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+
   baseURL: string;
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly router: Router,
-  ) {
+  constructor() {
     this.baseURL = environment.apiUrl;
   }
 
@@ -36,7 +36,7 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem(TOKEN_KEY);
-    this.router.navigate(['/login']);
+    void this.router.navigate(['/login']);
   }
 
   public getToken(): string | null {

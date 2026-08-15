@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Movie } from '../movie/movie';
 
 @Pipe({
   name: 'search',
@@ -6,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 //filter the movies by search term
 export class SearchPipe implements PipeTransform {
-  transform(items: any[], searchText: string) {
+  transform(items: Movie[], searchText: string) {
     if (!items) {
       return [];
     }

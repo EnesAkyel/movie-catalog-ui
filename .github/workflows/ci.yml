@@ -33,6 +33,32 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@v6
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci --ignore-scripts
+
+      - name: Lint
+        run: npm run lint
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +119,7 @@ jobs:
           retention-days: 1
 
   sonar:
-    needs: [format, build, test]
+    needs: [format, lint, build, test]
     runs-on: ubuntu-latest
     steps:
       - name: Check out code

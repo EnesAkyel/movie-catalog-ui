@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -17,18 +18,19 @@ import { AuthService } from '../auth-service/auth-service';
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   readonly loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(
-    formBuilder: FormBuilder,
-    private readonly authService: AuthService,
-    private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef,
-  ) {
+  constructor() {
+    const formBuilder = inject(FormBuilder);
+
     this.loginForm = formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -44,7 +46,7 @@ export class LoginComponent {
     this.errorMessage = null;
 
     this.authService.login(username, password).subscribe({
-      next: () => this.router.navigate(['/list']),
+      next: () => void this.router.navigate(['/list']),
       error: () => {
         this.errorMessage = 'Invalid username or password.';
         this.cdr.detectChanges();

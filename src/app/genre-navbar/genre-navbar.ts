@@ -3,6 +3,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../auth-service/auth-service';
@@ -11,17 +12,15 @@ import { AuthService } from '../auth-service/auth-service';
   selector: 'app-genre-navbar',
   imports: [RouterModule],
   templateUrl: './genre-navbar.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './genre-navbar.css',
 })
 export class GenreNavbarComponent implements OnInit {
-  genre: string = '';
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
 
-  constructor(
-    private readonly cdr: ChangeDetectorRef,
-    private readonly route: ActivatedRoute,
-    private readonly authService: AuthService,
-  ) {}
+  genre = '';
 
   ngOnInit() {
     //track the currently selected genre from the route

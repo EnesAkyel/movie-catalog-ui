@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Movie } from '../movie/movie';
 import { Studio } from '../studio/studio';
@@ -21,9 +21,11 @@ export interface MovieQuery {
 
 //defining the endpoints that we use
 export class MovieService {
+  private readonly http = inject(HttpClient);
+
   baseURL: string;
 
-  constructor(private readonly http: HttpClient) {
+  constructor() {
     this.baseURL = environment.apiUrl;
   }
 

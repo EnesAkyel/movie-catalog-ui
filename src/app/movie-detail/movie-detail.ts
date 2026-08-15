@@ -3,6 +3,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Movie } from '../movie/movie';
 import { MovieService } from '../movie-service/movie-service';
@@ -13,10 +14,15 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   imports: [RouterModule],
   templateUrl: './movie-detail.html',
   styleUrl: './movie-detail.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovieDetail implements OnInit {
-  mid: string = '1';
+  private readonly movieService = inject(MovieService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  mid = '1';
   movie: Movie = {
     mid: 0,
     name: '',
@@ -28,13 +34,6 @@ export class MovieDetail implements OnInit {
   studioName: string | null = null;
   errorMessage: string | null = null;
   pendingDelete = false;
-
-  constructor(
-    private readonly movieService: MovieService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit() {
     //in the movie list, mid is clickable which navigates to movie detail page.
@@ -87,7 +86,7 @@ export class MovieDetail implements OnInit {
     this.pendingDelete = false;
     this.movieService.deleteMovie(this.mid).subscribe({
       next: () => {
-        this.router.navigateByUrl('/list', {
+        void this.router.navigateByUrl('/list', {
           state: { successMessage: 'Movie deleted successfully.' },
         });
       },

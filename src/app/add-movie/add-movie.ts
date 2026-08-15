@@ -3,6 +3,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Movie } from '../movie/movie';
 import {
@@ -22,9 +23,15 @@ import { CustomValidator } from '../custom-validator/custom-validator';
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './add-movie.html',
   styleUrl: './add-movie.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddMovie implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly service = inject(MovieService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   badMID = false;
   errorMessage: string | null = null;
   fieldErrors: { field: string; message: string }[] = [];
@@ -32,13 +39,9 @@ export class AddMovie implements OnInit {
   mid: string | null = null;
   readonly movieForm: FormGroup;
 
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly service: MovieService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly cdr: ChangeDetectorRef,
-  ) {
+  constructor() {
+    const formBuilder = this.formBuilder;
+
     //validation values in the add/edit movie form for each field
     //genre and rating have preselected values
     this.movieForm = formBuilder.group({
@@ -78,7 +81,7 @@ export class AddMovie implements OnInit {
           this.movieForm.patchValue(data);
           this.cdr.detectChanges();
         },
-        error: (error) => {
+        error: () => {
           this.errorMessage =
             'Could not load this movie for editing. Please try again.';
           this.cdr.detectChanges();
@@ -101,11 +104,11 @@ export class AddMovie implements OnInit {
 
     request.subscribe({
       //if backend returns ok, navigate back to list page to display movies
-      next: (data) => {
+      next: () => {
         const successMessage = this.isEditMode
           ? 'Movie updated successfully.'
           : 'Movie added successfully.';
-        this.router.navigateByUrl('/list', { state: { successMessage } });
+        void this.router.navigateByUrl('/list', { state: { successMessage } });
       },
       error: (error) => {
         //if MID already exists (add only), clear the mid field. The "MID already in use" message is shown next to the field
@@ -121,6 +124,7 @@ export class AddMovie implements OnInit {
             ? 'Could not save changes. Please try again.'
             : 'Something went wrong while adding the movie. Please try again.';
         }
+        this.cdr.detectChanges();
       },
     });
   }

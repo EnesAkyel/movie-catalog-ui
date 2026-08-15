@@ -16,6 +16,7 @@ An Angular front end for browsing, filtering, and managing a movie catalog. It p
 | HTTP         | `HttpClient`, RxJS                                                                             |
 | Unit Tests   | Vitest, `@vitest/coverage-v8`                                                                  |
 | Formatting   | Prettier (with the Angular HTML parser)                                                        |
+| Linting      | ESLint (`angular-eslint`, `typescript-eslint`)                                                 |
 | Code Quality | SonarCloud                                                                                     |
 | CI           | GitHub Actions                                                                                 |
 | Backend      | [movie-catalog-api](https://github.com/EnesAkyel/movie-catalog-api) (Spring Boot + PostgreSQL) |
@@ -99,6 +100,9 @@ npm run test:coverage
 # Prettier
 npm run format        # write
 npm run format:check  # check only, used in CI
+
+# ESLint
+npm run lint
 ```
 
 ---
@@ -111,9 +115,10 @@ Every push to `main` and every pull request triggers the GitHub Actions workflow
 2. Set up Node (version from `.nvmrc`)
 3. `npm ci`
 4. `npm run format:check`
-5. `npm run build`
-6. `npm run test:coverage`
-7. SonarCloud scan
+5. `npm run lint`
+6. `npm run build`
+7. `npm run test:coverage`
+8. SonarCloud scan
 
 ---
 
