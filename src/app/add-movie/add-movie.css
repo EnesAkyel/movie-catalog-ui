@@ -23,6 +23,16 @@ th {
   min-height: 3.4em;
 }
 
+input,
+select {
+  box-sizing: border-box;
+  width: 200px;
+  height: 2.2em;
+  padding: 0 8px;
+  font: inherit;
+  line-height: normal;
+}
+
 .field-error-slot {
   margin-top: 4px;
   font-size: 0.9em;

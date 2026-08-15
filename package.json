@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:coverage": "ng test --coverage --coverage-reporters lcov --coverage-reporters text-summary",
     "format": "prettier --write \"src/**/*.{ts,html,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,css}\"",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -27,10 +28,14 @@
     "@angular/build": "^22.1.4",
     "@angular/cli": "^22.1.4",
     "@angular/compiler-cli": "^22.1.2",
+    "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^4.1.10",
+    "angular-eslint": "22.1.0",
+    "eslint": "^10.6.0",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
     "typescript": "~6.0.3",
+    "typescript-eslint": "8.67.0",
     "vitest": "^4.1.10"
   }
 }

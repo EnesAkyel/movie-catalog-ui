@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter, Router, UrlTree } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
@@ -26,10 +26,10 @@ describe('authGuard', () => {
     localStorage.clear();
   });
 
-  function runGuard(): boolean {
+  function runGuard(): boolean | UrlTree {
     return TestBed.runInInjectionContext(() =>
       authGuard(null as never, null as never),
-    ) as boolean;
+    ) as boolean | UrlTree;
   }
 
   it('allows navigation when a token is stored', () => {
@@ -40,9 +40,9 @@ describe('authGuard', () => {
 
   it('blocks navigation and redirects to /login when there is no token', () => {
     vi.spyOn(authService, 'isLoggedIn').mockReturnValue(false);
-    const navigateSpy = vi.spyOn(router, 'navigate');
 
-    expect(runGuard()).toBe(false);
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+    const result = runGuard();
+    expect(result).toBeInstanceOf(UrlTree);
+    expect(router.serializeUrl(result as UrlTree)).toBe('/login');
   });
 });

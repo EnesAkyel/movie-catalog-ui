@@ -3,6 +3,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Movie } from '../movie/movie';
 import { MovieService } from '../movie-service/movie-service';
@@ -32,15 +33,19 @@ const SEARCH_BATCH_SIZE = 500;
   ],
   templateUrl: './list-component.html',
   styleUrl: './list-component.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+  private readonly service = inject(MovieService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly route = inject(ActivatedRoute);
+
   movieList: Movie[] = [];
-  searchString: string = '';
+  searchString = '';
   readonly filterForm: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
-  genre: string = '';
+  genre = '';
 
   page = 0;
   size = 10;
@@ -50,12 +55,9 @@ export class ListComponent implements OnInit {
   sortColumn: 'mid' | 'name' = 'mid';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(
-    formBuilder: FormBuilder,
-    private readonly service: MovieService,
-    private readonly cdr: ChangeDetectorRef,
-    private readonly route: ActivatedRoute,
-  ) {
+  constructor() {
+    const formBuilder = inject(FormBuilder);
+
     this.filterForm = formBuilder.group({
       search: new FormControl(''),
       rating: new FormControl(''),
@@ -143,6 +145,7 @@ export class ListComponent implements OnInit {
       this.sortDirection = 'asc';
     }
     this.applySort();
+    this.cdr.detectChanges();
   }
 
   //(re)applies the current sortColumn/sortDirection, e.g. after a fresh page of results loads

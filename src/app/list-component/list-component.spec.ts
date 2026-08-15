@@ -13,10 +13,15 @@ import { of } from 'rxjs';
 
 import { ListComponent } from './list-component';
 import { environment } from '../../environments/environment';
+import { Movie } from '../movie/movie';
+import { PageResponse } from '../page-response/page-response';
 
 const moviesUrl = `${environment.apiUrl}/movies`;
 
-function page(content: any[], overrides: Record<string, any> = {}) {
+function page(
+  content: Movie[],
+  overrides: Partial<PageResponse<Movie>> = {},
+): PageResponse<Movie> {
   return {
     content,
     page: 0,
@@ -53,7 +58,10 @@ describe('ListComponent', () => {
     vi.useRealTimers();
   });
 
-  function init(content: any[] = [], overrides: Record<string, any> = {}) {
+  function init(
+    content: Movie[] = [],
+    overrides: Partial<PageResponse<Movie>> = {},
+  ) {
     fixture.detectChanges();
     const req = httpMock.expectOne((r) => r.url === moviesUrl);
     req.flush(page(content, overrides));
@@ -215,7 +223,21 @@ describe('ListComponent', () => {
         },
       ]);
       component.searchString = 'nonexistent movie';
-      fixture.detectChanges();
+      component.loadMovies();
+      httpMock
+        .expectOne((r) => r.url === moviesUrl)
+        .flush(
+          page([
+            {
+              mid: 1,
+              name: 'Inception',
+              genre: '',
+              price: 1,
+              rating: 'G',
+              studio: 1,
+            },
+          ]),
+        );
 
       const row = fixture.nativeElement.querySelector(
         '[data-testid="no-search-results"]',

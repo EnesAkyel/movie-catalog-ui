@@ -16,7 +16,6 @@ ul.topnav li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  vertical-align: middle;
 }
 
 ul.topnav li a:hover:not(.active) {

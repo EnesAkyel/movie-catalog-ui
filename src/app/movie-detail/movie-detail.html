@@ -11,36 +11,38 @@
   <table>
     <tbody>
       <tr>
-        <th scope="row">MID:</th>
+        <th scope="row">MID</th>
         <td>{{ movie.mid }}</td>
       </tr>
       <tr>
-        <th scope="row">Name:</th>
+        <th scope="row">Name</th>
         <td>{{ movie.name }}</td>
       </tr>
       <tr>
-        <th scope="row">Genre:</th>
+        <th scope="row">Genre</th>
         <td>{{ movie.genre }}</td>
       </tr>
       <tr>
-        <th scope="row">Price:</th>
+        <th scope="row">Price</th>
         <td>${{ movie.price }}</td>
       </tr>
       <tr>
-        <th scope="row">Rating:</th>
+        <th scope="row">Rating</th>
         <td>{{ movie.rating }}</td>
       </tr>
       <tr>
-        <th scope="row">Studio:</th>
+        <th scope="row">Studio</th>
         <td data-testid="studio-name">{{ studioName ?? movie.studio }}</td>
       </tr>
       <tr>
-        <td colspan="2">
+        <th scope="row">
           <a
             data-testid="edit-movie-link"
             [routerLink]="['/movie', mid, 'edit']"
             >Edit</a
           >
+        </th>
+        <td class="delete-cell">
           @if (pendingDelete) {
             <span data-testid="confirm-delete">
               Delete this movie?
