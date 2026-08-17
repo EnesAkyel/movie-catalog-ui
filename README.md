@@ -105,6 +105,24 @@ npm run format:check  # check only, used in CI
 npm run lint
 ```
 
+### Checking for dependency upgrades
+
+```bash
+# List outdated npm packages (current vs. wanted vs. latest)
+npm outdated
+
+# Explain why a package is pinned to its current range (peer dependency chain)
+npm explain <package>
+
+# Bump Angular packages together (handles peer ranges, migrations)
+ng update
+
+# Apply an Angular update once `ng update` shows one available
+ng update @angular/cli @angular/core
+```
+
+`typescript` is intentionally pinned to `~6.0.3` - `@angular/build`/`@angular/compiler-cli` currently require `>=6.0 <6.1`, so it can't be bumped further until Angular's peer range moves. Use `npm explain <package>` to check whether a stale package is genuinely blocked by a peer range like this, or just has an unbumped local semver caret.
+
 ---
 
 ## CI Pipeline

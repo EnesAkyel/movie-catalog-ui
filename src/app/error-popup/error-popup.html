@@ -1,0 +1,30 @@
+@if (popup) {
+  <div class="overlay">
+    <div
+      class="dialog"
+      role="alertdialog"
+      aria-modal="true"
+      data-testid="error-popup"
+    >
+      <p data-testid="error-popup-message">{{ popup.message }}</p>
+      <div class="actions">
+        @if (popup.refreshable) {
+          <button
+            type="button"
+            data-testid="error-popup-refresh"
+            (click)="refresh()"
+          >
+            Refresh Page
+          </button>
+        }
+        <button
+          type="button"
+          data-testid="error-popup-dismiss"
+          (click)="dismiss()"
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
+  </div>
+}
