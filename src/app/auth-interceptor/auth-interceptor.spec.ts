@@ -87,7 +87,9 @@ describe('authInterceptor', () => {
     errorPopupService.popup$.subscribe(popupSpy);
     const error = vi.fn();
 
-    http.post('/auth/login', { username: 'bad', password: 'bad' }).subscribe({ error });
+    http
+      .post('/auth/login', { username: 'bad', password: 'bad' })
+      .subscribe({ error });
 
     const req = httpMock.expectOne('/auth/login');
     req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
