@@ -81,6 +81,24 @@ describe('authInterceptor', () => {
     expect(error).not.toHaveBeenCalled();
   });
 
+  it('propagates a 401 from the login endpoint untouched, without a popup or logout', () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const popupSpy = vi.fn();
+    errorPopupService.popup$.subscribe(popupSpy);
+    const error = vi.fn();
+
+    http
+      .post('/auth/login', { username: 'bad', password: 'bad' })
+      .subscribe({ error });
+
+    const req = httpMock.expectOne('/auth/login');
+    req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
+
+    expect(navigateSpy).not.toHaveBeenCalled();
+    expect(popupSpy).not.toHaveBeenCalled();
+    expect(error).toHaveBeenCalled();
+  });
+
   it('shows a refreshable popup and still propagates non-401 4XX/5XX errors, without logging out', () => {
     localStorage.setItem('authToken', 'jwt-token');
     const navigateSpy = vi.spyOn(router, 'navigate');
