@@ -3,7 +3,9 @@
 <!--List of Movies button to navigate to the Movie List page -->
 <p><a data-testid="list-link" [routerLink]="['/list']">List of Movies</a></p>
 @if (errorMessage) {
-  <p class="red" role="alert">{{ errorMessage }}</p>
+  <p class="red" role="alert" data-testid="add-movie-error-message">
+    {{ errorMessage }}
+  </p>
 }
 @if (fieldErrors.length > 0) {
   <ul class="red" role="alert" data-testid="field-errors">
