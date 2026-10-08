@@ -45,6 +45,7 @@ describe('LoginComponent', () => {
   it('does not submit while the form is invalid', () => {
     component.login();
 
+    expect(component.loginForm.invalid).toBe(true);
     httpMock.expectNone(`${baseUrl}/auth/login`);
   });
 
